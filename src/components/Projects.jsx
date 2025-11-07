@@ -26,7 +26,7 @@ const Projects = () => {
     <section id="projects" className="mx-auto max-w-6xl px-6 py-20">
       <div className="mx-auto max-w-2xl text-center">
         <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">Selected projects</h2>
-        <p className="mt-3 text-slate-300">A snapshot of things I\'ve designed and built recently.</p>
+        <p className="mt-3 text-slate-300">A snapshot of things I've designed and built recently.</p>
       </div>
 
       <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
