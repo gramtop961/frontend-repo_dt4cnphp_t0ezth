@@ -11,27 +11,62 @@ import {
   Rocket,
 } from 'lucide-react';
 
-// A single key in the keyboard
-const Key = ({ color, label, Icon }) => (
-  <div
-    className="group relative aspect-square w-16 select-none rounded-xl border border-white/10 bg-white/5 p-3 text-center shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] backdrop-blur transition-transform hover:-translate-y-1 hover:bg-white/10 sm:w-20"
-    style={{ boxShadow: `0 10px 20px ${color}33` }}
-  >
+// A single interactive key
+const Key = ({ color, label, Icon }) => {
+  const ref = React.useRef(null);
+  const [style, setStyle] = React.useState({ transform: 'translateZ(0)' });
+
+  const handleMove = (e) => {
+    const el = ref.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const midX = rect.width / 2;
+    const midY = rect.height / 2;
+
+    const rotateY = ((x - midX) / midX) * 8; // -8deg to 8deg
+    const rotateX = -((y - midY) / midY) * 8; // -8deg to 8deg
+    const elevate = 14; // px translateZ
+
+    setStyle({
+      transform: `perspective(600px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(${elevate}px)`,
+      boxShadow: `0 18px 40px ${color}44, 0 8px 20px rgba(0,0,0,0.35)`
+    });
+  };
+
+  const handleLeave = () => {
+    setStyle({ transform: 'translateZ(0)', boxShadow: `0 10px 20px ${color}33` });
+  };
+
+  return (
     <div
-      className="absolute -inset-px rounded-xl opacity-0 transition-opacity group-hover:opacity-100"
-      style={{
-        background:
-          'radial-gradient(60% 60% at 30% 20%, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0) 60%), ' +
-          `conic-gradient(from 180deg at 50% 50%, ${color} 0deg, transparent 120deg, ${color} 240deg, transparent 360deg)`,
-        filter: 'blur(12px)',
-      }}
-    />
-    <div className="relative z-10 flex h-full w-full flex-col items-center justify-center gap-1">
-      <Icon className="h-6 w-6" style={{ color }} />
-      <span className="text-[11px] font-medium text-slate-200">{label}</span>
+      ref={ref}
+      onMouseMove={handleMove}
+      onMouseLeave={handleLeave}
+      className="group relative aspect-square w-16 select-none rounded-xl border border-white/10 bg-white/5 p-3 text-center shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] backdrop-blur transition-[transform,box-shadow,background] duration-200 ease-out hover:bg-white/10 sm:w-20 will-change-transform"
+      style={{ boxShadow: `0 10px 20px ${color}33`, ...style }}
+    >
+      <div
+        className="absolute -inset-px rounded-xl opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+        style={{
+          background:
+            'radial-gradient(60% 60% at 30% 20%, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0) 60%), ' +
+            `conic-gradient(from 180deg at 50% 50%, ${color} 0deg, transparent 120deg, ${color} 240deg, transparent 360deg)`,
+          filter: 'blur(12px)',
+        }}
+      />
+      <div className="relative z-10 flex h-full w-full flex-col items-center justify-center gap-1">
+        <Icon className="h-6 w-6 drop-shadow" style={{ color }} />
+        <span className="text-[11px] font-medium text-slate-200">{label}</span>
+      </div>
+      {/* Glossy highlight */}
+      <div className="pointer-events-none absolute inset-0 rounded-xl opacity-0 mix-blend-screen transition-opacity duration-200 group-hover:opacity-60" style={{
+        background: 'linear-gradient(120deg, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0.06) 30%, rgba(255,255,255,0) 60%)'
+      }} />
     </div>
-  </div>
-);
+  );
+};
 
 const SkillsKeyboard = () => {
   const keys = [

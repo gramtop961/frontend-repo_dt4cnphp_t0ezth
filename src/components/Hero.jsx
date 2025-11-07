@@ -6,7 +6,7 @@ const Hero = () => {
     <section className="relative h-[85vh] w-full overflow-hidden bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950">
       <div className="absolute inset-0">
         <Spline
-          scene="https://prod.spline.design/VJLoxp84lCdVfdZu/scene.splinecode"
+          scene="https://prod.spline.design/fcD-iW8YZHyBp1qq/scene.splinecode"
           style={{ width: '100%', height: '100%' }}
         />
       </div>
@@ -19,11 +19,10 @@ const Hero = () => {
           <span className="h-2 w-2 rounded-full bg-emerald-400" /> Available for freelance
         </span>
         <h1 className="text-left text-4xl font-extrabold leading-tight tracking-tight text-white sm:text-5xl md:text-6xl">
-          Building delightful, performant web experiences
+          Technology-forward experiences for the web
         </h1>
         <p className="mt-4 max-w-2xl text-left text-slate-300">
-          I craft modern interfaces, robust APIs, and playful interactions. Explore my work
-          and the tools I use every day.
+          Modern, interactive and performant interfaces with a playful touch. Explore my work and the tools I use every day.
         </p>
         <div className="mt-8 flex flex-wrap items-center gap-4">
           <a
